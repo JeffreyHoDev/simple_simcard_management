@@ -1,3 +1,4 @@
+require('dotenv').config()
 const express = require('express')
 const bodyParser = require('body-parser')
 const cors = require('cors')
@@ -13,7 +14,6 @@ const knex = require('knex')({
     }
 });
 
-console.log(process.env.DEV_DB_PASSWORD)
 
 const app = express()
 const port = 9960
