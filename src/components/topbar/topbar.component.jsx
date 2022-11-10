@@ -3,6 +3,8 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import { Link } from 'react-router-dom';
 
+import "./topbar.styles.css"
+
 const Topbar = ({ isLoggedIn }) => {
     return (
         <>
@@ -10,7 +12,7 @@ const Topbar = ({ isLoggedIn }) => {
                 !isLoggedIn ? null 
                 : (
                     <div className="topbar-component-container">
-                        <Navbar bg="light" expand="lg">
+                        <Navbar bg="light">
                             <Container>
                                 <Navbar.Brand href="#home">T-SIMCard</Navbar.Brand>
                                 <Navbar.Toggle aria-controls="basic-navbar-nav" />

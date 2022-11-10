@@ -1,10 +1,9 @@
 import { Route, Redirect } from 'react-router-dom'
 
 
-const PrivateRoute = ({ isLoggedIn, children, ...rest }) => {
+const PrivateRoute = ({ isLoggedIn, children }) => {
     return (
       <Route
-        {...rest}
         render={() =>
             isLoggedIn ? (
             children

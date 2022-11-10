@@ -1,6 +1,6 @@
 import './App.css';
 
-import { Switch, Route } from "react-router-dom";
+import { Switch, Route, Redirect } from "react-router-dom";
 
 import EntryPage from './pages/entry/entry.page';
 import RecordPage from './pages/record/record.page';
@@ -27,6 +27,9 @@ function App() {
         <PrivateRoute path="/record" isLoggedIn={isLoggedIn}>
           <RecordPage />
         </PrivateRoute>
+        <Route path='*'>
+          <Redirect to="/login" />
+        </Route>
       </Switch>
     </div>
   );
