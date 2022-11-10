@@ -1,3 +1,4 @@
+require('dotenv').config()
 const express = require('express')
 const bodyParser = require('body-parser')
 const cors = require('cors')
@@ -8,10 +9,12 @@ const knex = require('knex')({
         host : '127.0.0.1',
         port : 5432,
         user : 'postgres',
-        password : 'Reunion1994!',
+        password : process.env.DEV_DB_PASSWORD,
         database : 'sim_card'
     }
 });
+
+console.log(process.env.DEV_DB_PASSWORD)
 
 const app = express()
 const port = 9960
