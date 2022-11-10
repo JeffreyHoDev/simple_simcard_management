@@ -1,7 +1,7 @@
 const express = require('express')
 const bodyParser = require('body-parser')
 const cors = require('cors')
-
+const path = require('path')
 const knex = require('knex')({
     client: 'pg',
     connection: {
@@ -15,6 +15,8 @@ const knex = require('knex')({
 
 const app = express()
 const port = 9960
+app.use(express.static(path.join(__dirname, "..", "build")));
+app.use(express.static("public"))
 app.use(cors())
 app.use(bodyParser.json())
 app.use(
@@ -22,6 +24,8 @@ app.use(
       extended: true,
     })
 )
+
+
 
 app.get('/getRecord', (req, res) => {
     knex.select().table('sim_card_record')
