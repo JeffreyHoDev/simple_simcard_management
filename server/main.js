@@ -9,7 +9,7 @@ const knex = require('knex')({
         host : '127.0.0.1',
         port : 5432,
         user : 'postgres',
-        password : process.env.DEV_DB_PASSWORD,
+        password : 'Reunion1994!',
         database : 'sim_card'
     }
 });
@@ -26,8 +26,6 @@ app.use(
       extended: true,
     })
 )
-
-
 
 app.get('/getRecord', (req, res) => {
     knex.select().table('sim_card_record')
@@ -52,7 +50,7 @@ app.post('/getLoginInfo', (req, res) => {
 })
 
 app.post('/insertRecord', (req, res) => {
-    const { simcard, customer, project, activateDate, vehiclePlate, expiryLength } = req.body
+    const { simcard, customer, project, activateDate, vehiclePlate, expiryLength, status } = req.body
     const expiryDate = new Date(activateDate);
     expiryDate.setFullYear(expiryDate.getFullYear() + parseInt(expiryLength))
     knex('sim_card_record').insert({
@@ -61,7 +59,8 @@ app.post('/insertRecord', (req, res) => {
         project: project,
         activatedate: activateDate,
         expirydate: expiryDate,
-        vehicleplate: vehiclePlate
+        vehicleplate: vehiclePlate,
+        status: status
     })
     .then(response => res.json(response))
     .catch(error => res.json(error))
