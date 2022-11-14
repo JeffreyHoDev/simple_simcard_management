@@ -3,6 +3,7 @@ import "./edit.styles.css"
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 
+
 import { useState } from "react";
 
 
@@ -24,10 +25,41 @@ const EditInfo = ({ singleSim, setSingleSim, setShowSingleSim }) => {
         setShowSingleSim(false)
     }
 
+    const editHandler = (e) => {
+        e.preventDefault()
+        fetch('http://localhost:9960/update', {
+            method: "POST",
+            headers: {
+                "Content-type": "application/json"
+            },
+            body: JSON.stringify({
+                id: singleSim[0].id,
+                simcard,
+                customer,
+                vehiclePlate,
+                project,
+                status,
+                activateDate,
+                expiryDate
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if(data === 1) {
+                alert("Succesfully edited!")
+                cancelHandler()
+            }else {
+                alert("Something went wrong when edit. Please try again!")
+            }
+        })
+        .catch(err => console.log(err))
+    }
+
     const [simcard, setSimcard] = useState(singleSim[0].simno)
     const [customer, setCustomer] = useState(singleSim[0].customer)
     const [vehiclePlate, setVehiclePlate] = useState(singleSim[0].vehicleplate)
     const [project, setProject] = useState(singleSim[0].project)
+    const [status, setStatus] = useState(singleSim[0].status)
     const [activateDate, setActivationDate] = useState(formatDate(startDate))
     const [expiryDate, setExpiryDate] = useState(formatDate(endDate))
 
@@ -60,8 +92,13 @@ const EditInfo = ({ singleSim, setSingleSim, setShowSingleSim }) => {
                         <Form.Group className="mb-3">
                             <Form.Label>Expiry Date</Form.Label>
                             <Form.Control type="date" placeholder="Exipiry Date" value={expiryDate} onChange={(e) => setExpiryDate(e.target.value)}/>
+                            <label>Status</label>
+                            <select onChange={(e) => setStatus(e.target.value)}>
+                                <option value="A">Active</option>
+                                <option value="D">Disabled</option>
+                            </select>
                         </Form.Group>
-                        <Button variant="primary" type="submit">
+                        <Button variant="primary" type="submit" onClick={editHandler}>
                             Edit
                         </Button>
                         <Button variant="Warning" onClick={cancelHandler}>

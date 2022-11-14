@@ -14,8 +14,6 @@ const knex = require('knex')({
     }
 });
 
-console.log(process.env.DEV_DB_PASSWORD)
-
 
 const app = express()
 const port = 9960
@@ -51,6 +49,22 @@ app.post('/getLoginInfo', (req, res) => {
     .catch(error => res.json(error))
 })
 
+app.post('/update', (req,res) => {
+    const { id, simcard, customer, project, activateDate, vehiclePlate, expiryDate, status } = req.body
+    knex('sim_card_record').where({id: id})
+    .update({
+        simno: simcard,
+        customer: customer,
+        project: project,
+        activatedate: activateDate,
+        vehicleplate: vehiclePlate,
+        expirydate: expiryDate,
+        status: status
+    })
+    .then(response => res.json(response))
+    .catch(err => console.log(err))
+})
+
 app.post('/insertRecord', (req, res) => {
     const { simcard, customer, project, activateDate, vehiclePlate, expiryLength, status } = req.body
     const expiryDate = new Date(activateDate);
@@ -72,3 +86,5 @@ app.post('/insertRecord', (req, res) => {
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
 })
+
+
