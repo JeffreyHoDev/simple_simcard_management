@@ -2,7 +2,7 @@ require('dotenv').config()
 const express = require('express')
 const bodyParser = require('body-parser')
 const cors = require('cors')
-
+const path = require('path')
 const knex = require('knex')({
     client: 'pg',
     connection: {
@@ -16,8 +16,11 @@ const knex = require('knex')({
 
 console.log(process.env.DEV_DB_PASSWORD)
 
+
 const app = express()
 const port = 9960
+// app.use(express.static(path.join(__dirname, "..", "build")));
+// app.use(express.static("public"))
 app.use(cors())
 app.use(bodyParser.json())
 app.use(
@@ -49,7 +52,7 @@ app.post('/getLoginInfo', (req, res) => {
 })
 
 app.post('/insertRecord', (req, res) => {
-    const { simcard, customer, project, activateDate, vehiclePlate, expiryLength } = req.body
+    const { simcard, customer, project, activateDate, vehiclePlate, expiryLength, status } = req.body
     const expiryDate = new Date(activateDate);
     expiryDate.setFullYear(expiryDate.getFullYear() + parseInt(expiryLength))
     knex('sim_card_record').insert({
@@ -58,7 +61,8 @@ app.post('/insertRecord', (req, res) => {
         project: project,
         activatedate: activateDate,
         expirydate: expiryDate,
-        vehicleplate: vehiclePlate
+        vehicleplate: vehiclePlate,
+        status: status
     })
     .then(response => res.json(response))
     .catch(error => res.json(error))

@@ -6,10 +6,13 @@ import { useState, useEffect } from "react";
 import { Button } from "react-bootstrap";
 
 import { exportToExcel } from '../../util/excel'
+import EditInfo from "../../components/edit/edit.component";
 
 const RecordPage = () => {
 
     const [simInfo, setSimInfo] = useState([])
+    const [singleSim, setSingleSim] = useState(null)
+    const [showSingleSim, setShowSingleSim] = useState(false)
 
     useEffect(() => {
         let getSimInfo = async() => {
@@ -24,10 +27,16 @@ const RecordPage = () => {
         getSimInfo()
     }, [])
 
+    const editButtonHandler = (index) => {
+        setSingleSim([].concat(simInfo[index]))
+        setShowSingleSim(true)
+    }
 
     return (
         <>
-            <div className="record-page-container">
+        {
+            !showSingleSim ? (
+                <div className="record-page-container">
                 <h3>SIM Card Record</h3>
                 {simInfo.length === 0 ? null 
                 : (
@@ -43,11 +52,13 @@ const RecordPage = () => {
                             <th>Project</th>
                             <th>Activation Date</th>
                             <th>Expected Expiry Date</th>
+                            <th>Status</th>
+                            <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
                         {
-                            simInfo.map(sim => {
+                            simInfo.map((sim, index) => {
                                 return (
                                     <tr key={`sim-${sim.id}`}>
                                         <td>{sim.id}</td>
@@ -57,6 +68,8 @@ const RecordPage = () => {
                                         <td>{sim.project}</td>
                                         <td>{sim.activatedate}</td>
                                         <td>{sim.expirydate}</td>
+                                        <td>{sim.status === 'A' ? "Active" : ""}</td>
+                                        <td><Button onClick={() => editButtonHandler(index)}>Edit</Button></td>
                                     </tr>
                                 )
                             })
@@ -64,6 +77,11 @@ const RecordPage = () => {
                     </tbody>
                 </Table>
             </div>
+            ): (
+                <EditInfo setSingleSim={setSingleSim} setShowSingleSim={setShowSingleSim} singleSim={singleSim}/>
+            )
+        }
+
         </>
     )
 }

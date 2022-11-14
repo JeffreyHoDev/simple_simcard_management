@@ -11,7 +11,6 @@ const LoginPage = ({ isLoggedIn, setIsLoggedIn }) => {
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
 
-
     const loginHandler = (e) => {
         e.preventDefault()
         let login = async() => {

@@ -32,7 +32,8 @@ const EntryPage = () => {
                             project,
                             activateDate,
                             vehiclePlate,
-                            expiryLength
+                            expiryLength,
+                            status: 'A'
                         })
                     })
                     let data = await response.json()
@@ -56,6 +57,7 @@ const EntryPage = () => {
         setCustomer("")
         setProject("")
         setActivationDate("")
+        setVehiclePlate("")
     }
 
     return (

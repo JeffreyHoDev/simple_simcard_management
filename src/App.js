@@ -10,6 +10,7 @@ import LoginPage from './pages/login/login.page';
 
 import PrivateRoute from './components/privateroutewrapper/privateRoute.component'
 import { useState } from 'react'
+import EditInfo from './components/edit/edit.component';
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false)
