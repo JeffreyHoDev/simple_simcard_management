@@ -27,7 +27,7 @@ const EditInfo = ({ singleSim, setSingleSim, setShowSingleSim }) => {
 
     const editHandler = (e) => {
         e.preventDefault()
-        fetch('http://localhost:9960/update', {
+        fetch(`http://${process.env.REACT_APP_IP}:9960/update`, {
             method: "POST",
             headers: {
                 "Content-type": "application/json"
