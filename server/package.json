@@ -15,6 +15,7 @@
     "excel-date-to-js": "^1.1.5",
     "express": "^4.18.2",
     "knex": "^2.3.0",
+    "node-cron": "^3.0.2",
     "nodemailer": "^6.8.0",
     "path": "^0.12.7",
     "pg": "^8.8.0",

@@ -93,7 +93,7 @@ const EditInfo = ({ singleSim, setSingleSim, setShowSingleSim }) => {
                             <Form.Label>Expiry Date</Form.Label>
                             <Form.Control type="date" placeholder="Exipiry Date" value={expiryDate} onChange={(e) => setExpiryDate(e.target.value)}/>
                             <label>Status</label>
-                            <select onChange={(e) => setStatus(e.target.value)}>
+                            <select value={status} onChange={(e) => setStatus(e.target.value)}>
                                 <option value="A">Active</option>
                                 <option value="D">Disabled</option>
                             </select>

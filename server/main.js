@@ -3,6 +3,8 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const cors = require('cors')
 const path = require('path')
+const cron = require('node-cron');
+const checkExpirySoonCard = require('./email.js')
 const knex = require('knex')({
     client: 'pg',
     connection: {
@@ -82,6 +84,12 @@ app.post('/insertRecord', (req, res) => {
     .catch(error => res.json(error))
 
 })
+
+cron.schedule('0 9 * * *', () => {
+    checkExpirySoonCard.checkExpirySoonCard()
+});
+
+
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)

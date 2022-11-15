@@ -13,9 +13,6 @@ const knex = require('knex')({
 
 // async..await is not allowed in global scope, must use a wrapper
 async function emailHandler(data) {
-  // Generate test SMTP service account from ethereal.email
-  // Only needed if you don't have a real mail account for testing
-  let testAccount = await nodemailer.createTestAccount();
 
   // create reusable transporter object using the default SMTP transport
   let transporter = nodemailer.createTransport({
@@ -47,8 +44,6 @@ async function emailHandler(data) {
   
 }
 
-// main().catch(console.error);
-
 const checkExpirySoonCard = async() => {
     let padToTwoDigits = (date) => {
         return String(date).padStart(2, '0')
@@ -57,9 +52,9 @@ const checkExpirySoonCard = async() => {
     let todayString = `${today.getFullYear()}-${padToTwoDigits(today.getMonth()+1)}-${padToTwoDigits(today.getDate())}`
 
     let endString = `${today.getFullYear()}-${padToTwoDigits(today.getMonth()+2)}-${padToTwoDigits(today.getDate())}`
-    console.log(endString)
 
     knex('sim_card_record').whereBetween("expirydate",[todayString, endString])
+    .where({status: 'A'})
     .then(response => {
         if(response.length !== 0){
             emailHandler(response).catch(console.error)
@@ -69,4 +64,4 @@ const checkExpirySoonCard = async() => {
     })
     .catch(err => console.log(err))
 }
-checkExpirySoonCard()
+module.exports.checkExpirySoonCard = checkExpirySoonCard

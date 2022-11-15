@@ -13,19 +13,23 @@ const RecordPage = () => {
     const [simInfo, setSimInfo] = useState([])
     const [singleSim, setSingleSim] = useState(null)
     const [showSingleSim, setShowSingleSim] = useState(false)
+    const [isFetching, setIsFetching] = useState(false)
 
     useEffect(() => {
         let getSimInfo = async() => {
             try {
+                setIsFetching(true)
                 let response = await fetch('http://localhost:9960/getRecord')
                 let data = await response.json()
                 setSimInfo([].concat(data))
+                setIsFetching(false)
             }catch(err) {
                 alert("Error: " + err)
+                setIsFetching(false)
             }
         }
         getSimInfo()
-    }, [])
+    }, [showSingleSim])
 
     const editButtonHandler = (index) => {
         setSingleSim([].concat(simInfo[index]))
@@ -38,7 +42,7 @@ const RecordPage = () => {
             !showSingleSim ? (
                 <div className="record-page-container">
                 <h3>SIM Card Record</h3>
-                {simInfo.length === 0 ? null 
+                {isFetching ? null 
                 : (
                     <Button type="button" onClick={() => exportToExcel(simInfo)}>Export Excel</Button>
                 )}
@@ -68,7 +72,7 @@ const RecordPage = () => {
                                         <td>{sim.project}</td>
                                         <td>{sim.activatedate}</td>
                                         <td>{sim.expirydate}</td>
-                                        <td>{sim.status === 'A' ? "Active" : ""}</td>
+                                        <td>{sim.status === 'A' ? "Active" : "Disabled"}</td>
                                         <td><Button onClick={() => editButtonHandler(index)}>Edit</Button></td>
                                     </tr>
                                 )

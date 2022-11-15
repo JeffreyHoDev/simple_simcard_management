@@ -13,6 +13,7 @@ const EntryPage = () => {
     const [project, setProject] = useState("")
     const [activateDate, setActivationDate] = useState("")
     const [expiryLength, setExpiryLength] = useState(1)
+    const [isSubmitting, setIsSubmitting] = useState(false)
 
     const submitHandler = (e) => {
         e.preventDefault()
@@ -21,6 +22,7 @@ const EntryPage = () => {
                 alert("Invalid Sim Card Number")
             }else {
                 try {
+                    setIsSubmitting(true)
                     let response = await fetch('http://localhost:9960/insertRecord', {
                         method: "POST",
                         headers: {
@@ -37,14 +39,18 @@ const EntryPage = () => {
                         })
                     })
                     let data = await response.json()
+                    console.log(data)
                     if(data.rowCount === 1) {
                         alert("Successfully Added")
                         resetField()
+                        setIsSubmitting(false)
                     }else {
                         alert("Failed to Add. Please try again")
+                        setIsSubmitting(false)
                     }
                 }catch(err) {
                     alert("Error: " + err)
+                    setIsSubmitting(false)
                 }
             }
         }
@@ -88,14 +94,17 @@ const EntryPage = () => {
                     <Form.Group className="mb-3">
                         <Form.Label>Expiry Length</Form.Label>
                         <Form.Select onChange={(e) => setExpiryLength(e.target.value)}>
-                            <option value="1">One Years</option>
+                            <option value="1">One Year</option>
                             <option value="2">Two Years</option>
                             <option value="3">Three Years</option>
                         </Form.Select>
                     </Form.Group>
-                    <Button variant="primary" type="submit" onClick={submitHandler}>
+                    <Button variant="primary" disabled={isSubmitting} type="submit" onClick={submitHandler}>
                         Submit
                     </Button>
+                    <p>
+                        {isSubmitting ? "Submitting..." : null }
+                    </p>
                 </Form>
             </div>
         </>
