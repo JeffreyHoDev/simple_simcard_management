@@ -1,4 +1,5 @@
 "use strict";
+require('dotenv').config()
 const nodemailer = require("nodemailer");
 const knex = require('knex')({
     client: 'pg',
@@ -6,7 +7,7 @@ const knex = require('knex')({
         host : '127.0.0.1',
         port : 5432,
         user : 'postgres',
-        password : 'Reunion1994!',
+        password : process.env.DEV_DB_PASSWORD,
         database : 'sim_card'
     }
 });
@@ -20,7 +21,7 @@ async function emailHandler(data) {
     secure: false, // true for 465, false for other ports
     auth: {
       user: "jeffreyhodev@gmail.com", // generated ethereal user
-      pass: "wlbggxhwgdpgmlec", // generated ethereal password
+      pass: process.env.DEV_GAPP_EMAIL_PASSWORD, // generated ethereal password
     },
   });
 

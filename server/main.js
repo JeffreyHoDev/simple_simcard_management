@@ -19,8 +19,8 @@ const knex = require('knex')({
 
 const app = express()
 const port = 9960
-// app.use(express.static(path.join(__dirname, "..", "build")));
-// app.use(express.static("public"))
+app.use(express.static(path.join(__dirname, "..", "build")));
+app.use(express.static("public"))
 app.use(cors())
 app.use(bodyParser.json())
 app.use(
