@@ -14,7 +14,7 @@ const LoginPage = ({ isLoggedIn, setIsLoggedIn }) => {
     const loginHandler = (e) => {
         e.preventDefault()
         let login = async() => {
-            let response = await fetch('http://localhost:9960/getLoginInfo', {
+            let response = await fetch(`http://${process.env.REACT_APP_IP}:9960/getLoginInfo`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"

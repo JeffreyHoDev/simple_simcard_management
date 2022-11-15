@@ -19,7 +19,7 @@ const RecordPage = () => {
         let getSimInfo = async() => {
             try {
                 setIsFetching(true)
-                let response = await fetch('http://localhost:9960/getRecord')
+                let response = await fetch(`http://${process.env.REACT_APP_IP}:9960/getRecord`)
                 let data = await response.json()
                 setSimInfo([].concat(data))
                 setIsFetching(false)

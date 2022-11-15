@@ -23,7 +23,7 @@ const EntryPage = () => {
             }else {
                 try {
                     setIsSubmitting(true)
-                    let response = await fetch('http://localhost:9960/insertRecord', {
+                    let response = await fetch(`http://${process.env.REACT_APP_IP}:9960/insertRecord`, {
                         method: "POST",
                         headers: {
                             "Content-type": "application/json"
